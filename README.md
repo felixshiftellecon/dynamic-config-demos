@@ -1,2 +1,2 @@
 # circleci-playground
-for dummy commit
+for dummy commits
