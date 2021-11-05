@@ -1,26 +1,17 @@
 version: 2.1
 
-executors:
-  base:
-    docker:
-      - image: cimg/base:stable
+setup: true
 
-jobs:
-  job_a:
-    executor: base
-    steps:
-      - checkout
-      - run: echo "Running job a"
-      - run: cat path_a/README.md
-  job_b:
-    executor: base
-    steps:
-      - checkout
-      - run: echo "running job b"
-      - run: cat path_b/README.md
+orbs:
+  path-filtering: circleci/path-filtering@0.1.0
 
 workflows:
-  job-workflow:
+  setup-workflow:
     jobs:
-      - job_a
-      - job_b
+      - path-filtering/filter:
+          name: check path
+          mapping: |
+            path_a/.* run-path-a true
+            path_b/.* run-path-b true
+          base-revision: main
+          config-path: .circleci/continue-config.yml
