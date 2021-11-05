@@ -13,5 +13,7 @@ workflows:
           mapping: |
             path_a/.* run-path-a true
             path_b/.* run-path-b true
+          # Default base-revision is main, but in this case
+          # that would cause both workflows to run each time
           base-revision: << pipeline.git.base_revision >>
           config-path: .circleci/continue-config.yml
