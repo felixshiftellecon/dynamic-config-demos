@@ -13,5 +13,5 @@ workflows:
           mapping: |
             path_a/.* run-path-a true
             path_b/.* run-path-b true
-          base-revision: main
+          base-revision: << pipeline.git.base_revision >>
           config-path: .circleci/continue-config.yml
