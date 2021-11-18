@@ -48,7 +48,7 @@ func main() {
 		fmt.Printf("Error while Marshaling. %v", err)
 	}
 
-	fileName := "generated_config.yaml"
+	fileName := "generated_config.yml"
 	err = ioutil.WriteFile(fileName, yamlData, 0644)
 	if err != nil {
 		panic("Unable to write data into the file")
