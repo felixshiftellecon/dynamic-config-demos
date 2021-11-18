@@ -16,7 +16,7 @@ jobs:
           command: |
             go run ./config_generators/config_via_unmarshall.go
       - continuation/continue:
-          configuration_path: generated_config.yml
+          configuration_path: ./generated_config.yml
 workflows:
   setup-workflow:
     jobs:
