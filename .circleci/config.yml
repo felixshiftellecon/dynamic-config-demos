@@ -1,23 +1,40 @@
 version: 2.1
-setup: true
+
+# this designates this configuration file as a setup workflow configuration
+setup: true 
+
+# the continuation orb is required in order to use a setup workflow
 orbs:
-  continuation: circleci/continuation@0.1.0
-executors:
-    go:
-        docker:
-            - image: cimg/go:1.17.3
+  continuation: circleci/continuation@0.1.2
+
 jobs:
-  generate-config:
-    executor: go
+  setup:
+    docker:
+      - image: cimg/python:3.9.4
     steps:
-      - checkout
-      - run: 
-          name: Generate generated_config.yml file
+      - checkout # checkout code
+      - run:
+          name: Set up pyyaml
           command: |
-            go run ./config_generators/config_via_unmarshall.go
-      - continuation/continue:
-          configuration_path: ./generated_config.yml
+            pip install pyyaml
+      - run: # run a command
+          name: Generate config
+          command: |
+            cd config-generators
+            python generate-config.py > generated_config.yml 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - generated_config.yml
+
 workflows:
-  setup-workflow:
+  setup:
     jobs:
-      - generate-config
+      - setup
+      - continuation/continue:
+          requires:
+            - setup
+          pre-steps: 
+            - attach_workspace:
+                at: .
+          configuration_path: generated_config.yml
