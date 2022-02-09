@@ -1,23 +1,16 @@
 version: 2.1
-executors:
-    go:
-        docker:
-            - image: cimg/go:1.17.3
+
 jobs:
-    job_a:
-        executor: go
-        steps:
-            - checkout
-            - run: echo Running job a
-            - run: cat path_a/README.md
-    job_b:
-        executor: go
-        steps:
-            - checkout
-            - run: echo running job b
-            - run: cat path_b/README.md
+  build:
+    docker:
+      - image: ubuntu:14.04
+    steps:
+      - checkout
+      - run:
+          command: echo "Config via APi works!"
+
+
 workflows:
-    job-workflow:
-        jobs:
-            - job_a
-            - job_b
+  build-server:
+    jobs:
+      - build

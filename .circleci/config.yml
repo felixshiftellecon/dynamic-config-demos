@@ -25,7 +25,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - generated_config.yml
+            - config_generators/generated_config.yml
 
 workflows:
   setup:
@@ -37,4 +37,4 @@ workflows:
           pre-steps: 
             - attach_workspace:
                 at: .
-          configuration_path: generated_config.yml
+          configuration_path: config_generators/generated_config.yml
