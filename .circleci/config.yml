@@ -20,7 +20,7 @@ jobs:
       - run: # run a command
           name: Generate config
           command: |
-            cd config-generators
+            cd config_generators
             python generate-config.py > generated_config.yml 
       - persist_to_workspace:
           root: .
