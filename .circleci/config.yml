@@ -17,3 +17,5 @@ workflows:
           # that would cause both workflows to run each time
           base-revision: << pipeline.git.base_revision >>
           config-path: .circleci/continue-config.yml
+          executor:
+            tag: 3.9
