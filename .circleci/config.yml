@@ -11,6 +11,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
+      - checkout
       - path-filtering/set-parameters:
           mapping: |
                   path_a/.* run-path-a true
