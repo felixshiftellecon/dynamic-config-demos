@@ -7,6 +7,9 @@ parameters:
   run-path-b:
     type: boolean
     default: false
+  testing:
+    type: boolean
+    default: false
 
 executors:
   base:
@@ -26,6 +29,10 @@ jobs:
       - checkout
       - run: echo "running job b"
       - run: cat path_b/README.md
+  job_test:
+    executor: base 
+    steps:
+      - run: echo << pipeline.parameters.testing >>
 
 workflows:
   workflow-a:

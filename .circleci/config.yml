@@ -3,17 +3,34 @@ version: 2.1
 setup: true
 
 orbs:
+  continuation: circleci/continuation@0.2.0
   path-filtering: circleci/path-filtering@0.1.0
+
+jobs:
+  set-params-and-continue:
+    docker:
+      - image: cimg/base:latest
+    steps:
+      - path-filtering/set-parameters:
+          mapping: |
+                  path_a/.* run-path-a true
+                  path_b/.* run-path-b true
+      - run: |
+          jq '. + {"testing": "true"}' /tmp/pipeline-parameters.json > temp.json && mv temp.json /tmp/pipeline-parameters.json
+      - continuation/continue:
+          configuration_path: .circleci/continue-config.yml
+          parameters: /tmp/pipeline-parameters.json
 
 workflows:
   setup-workflow:
     jobs:
-      - path-filtering/filter:
-          name: check path
-          mapping: |
-            path_a/.* run-path-a true
-            path_b/.* run-path-b true
-          # Default base-revision is main, but in this case
-          # that would cause both workflows to run each time
-          base-revision: << pipeline.git.base_revision >>
-          config-path: .circleci/continue-config.yml
+      - set-params-and-continue
+      # - path-filtering/filter:
+      #     name: check path
+      #     mapping: |
+      #       path_a/.* run-path-a true
+      #       path_b/.* run-path-b true
+      #     # Default base-revision is main, but in this case
+      #     # that would cause both workflows to run each time
+      #     base-revision: << pipeline.git.base_revision >>
+      #     config-path: .circleci/continue-config.yml
