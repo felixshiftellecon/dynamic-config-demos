@@ -29,7 +29,7 @@ jobs:
       - checkout
       - run: echo "running job b"
       - run: cat path_b/README.md
-  job_test:
+  job_custom:
     executor: base 
     steps:
       - run: echo << pipeline.parameters.testing >>
@@ -43,3 +43,7 @@ workflows:
     when: << pipeline.parameters.run-path-b >>
     jobs:
       - job_b
+  workflow-custom:
+    when: << pipeline.parameters.testing >>
+    jobs:
+      - job_custom
