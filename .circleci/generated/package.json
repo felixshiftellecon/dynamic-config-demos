@@ -1,0 +1,15 @@
+{
+  "name": "generated",
+  "version": "1.0.0",
+  "description": "",
+  "main": "generated.index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config_sdk_playground": "^1.0.1"
+  },
+  "devDependencies": {
+    "@circleci/circleci-config-sdk": "^0.12.0"
+  }
+}

@@ -1,26 +1,22 @@
 version: 2.1
 
-executors:
-  base:
-    docker:
-      - image: cimg/base:stable
+setup: true
+
+orbs:
+  continuation: circleci/continuation@0.2.0
 
 jobs:
-  job_a:
-    executor: base
+  setup:
+    docker: 
+      - image: cimg/node:19.7.0
+    resource_class: small
     steps:
       - checkout
-      - run: echo "Running job a"
-      - run: cat path_a/README.md
-  job_b:
-    executor: base
-    steps:
-      - checkout
-      - run: echo "running job b"
-      - run: cat path_b/README.md
+      - run: node .circleci/generated/generated.index.js
+      - continuation/continue:
+          configuration_path: basic_workflow.yml
 
 workflows:
-  job-workflow:
+  setup-workflow:
     jobs:
-      - job_a
-      - job_b
+      - setup
