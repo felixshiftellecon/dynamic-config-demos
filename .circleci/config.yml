@@ -13,7 +13,8 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          app-dir: generated/
       - run: node .circleci/generated/generated.index.js
       - continuation/continue:
           configuration_path: basic_workflow.yml
