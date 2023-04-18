@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: generated/
+          app-dir: .circleci/generated
       - run: node .circleci/generated/generated.index.js
       - continuation/continue:
           configuration_path: basic_workflow.yml
