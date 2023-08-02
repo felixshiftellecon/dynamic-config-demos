@@ -1,5 +1,13 @@
 version: 2.1
 setup: true
+
+parameters:
+  default:
+    default: "default"
+    description: Triggers the running of the automated tests. Must be one of "categories", "category" or "none". Defaults to 'categories'.
+    type: enum
+    enum: ["default", "none", "not default"]
+
 orbs:
   continuation: circleci/continuation@0.1.0
 executors:
