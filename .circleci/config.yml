@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          jq '. + {"testing": true}' /tmp/pipeline-parameters.json
+          jq '. + {"testing": true}' > /tmp/pipeline-parameters.json
       - continuation/continue:
           configuration_path: .circleci/continue-config.yml
           parameters: /tmp/pipeline-parameters.json
