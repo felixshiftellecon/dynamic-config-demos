@@ -1,5 +1,9 @@
 version: 2.1
 
+# You are unable to use one config file for dynamic config
+# The setup: true key will cause the continued pipeline
+# to fail
+
 setup: true
 
 parameters:
