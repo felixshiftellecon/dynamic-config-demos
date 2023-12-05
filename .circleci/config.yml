@@ -43,7 +43,7 @@ workflows:
           # Default base-revision is main, but in this case
           # that would cause both workflows to run each time
           base-revision: << pipeline.git.base_revision >>
-          config-path: .circleci/continue-config.yml
+          config-path: .circleci/config.yml
   workflow-a:
     when: << pipeline.parameters.run-path-a >>
     jobs:
