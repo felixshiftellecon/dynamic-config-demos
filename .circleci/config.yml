@@ -1,5 +1,18 @@
 version: 2.1
 
+setup: true
+
+parameters:
+  run-path-a:
+    type: boolean
+    default: false
+  run-path-b:
+    type: boolean
+    default: false
+
+orbs:
+  path-filtering: circleci/path-filtering@1.0.0
+
 executors:
   base:
     docker:
@@ -20,7 +33,22 @@ jobs:
       - run: cat path_b/README.md
 
 workflows:
-  job-workflow:
+  setup-workflow:
+    jobs:
+      - path-filtering/filter:
+          name: check path
+          mapping: |
+            path_a/.* run-path-a true
+            path_b/.* run-path-b true
+          # Default base-revision is main, but in this case
+          # that would cause both workflows to run each time
+          base-revision: << pipeline.git.base_revision >>
+          config-path: .circleci/continue-config.yml
+  workflow-a:
+    when: << pipeline.parameters.run-path-a >>
     jobs:
       - job_a
+  workflow-b:
+    when: << pipeline.parameters.run-path-b >>
+    jobs:
       - job_b
