@@ -11,6 +11,8 @@ jobs:
       - run: 
           name: Prepare Continuation Data
           command: |
+                    mkdir -p /tmp/circleci
+                    
                     jq -n \
                       --arg continuation "$CIRCLE_CONTINUATION_KEY" \
                       --arg params {"testing":true} \
