@@ -13,9 +13,9 @@ jobs:
           command: |
                     jq -n \
                       --arg continuation "$CIRCLE_CONTINUATION_KEY" \
-                      --arg params "$PARAMS" \
+                      --arg params {"testing":true} \
                       --slurpfile config .circleci/continued_config.yml \
-                      '{"continuation-key": $CIRCLE_CONTINUATION_KEY, "configuration": $config|join("\n"), "parameters": {"testing":true}}' > /tmp/circleci/continue_post.json
+                      '{"continuation-key": $continuation, "configuration": $config|join("\n"), "parameters": $params|fromjson}' > /tmp/circleci/continue_post.json
       - run: 
           name: Continue the Pipeline
           command: |
