@@ -12,11 +12,11 @@ jobs:
           name: Prepare Continuation Data
           command: |
                     mkdir -p /tmp/circleci
-                    
+
                     jq -n \
                       --arg continuation "$CIRCLE_CONTINUATION_KEY" \
                       --arg params {"testing":true} \
-                      --slurpfile config .circleci/continued_config.yml \
+                      --slurpfile config ".circleci/continued_config.yml" \
                       '{"continuation-key": $continuation, "configuration": $config|join("\n"), "parameters": $params|fromjson}' > /tmp/circleci/continue_post.json
       - run: 
           name: Continue the Pipeline
