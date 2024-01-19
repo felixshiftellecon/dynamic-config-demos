@@ -13,10 +13,12 @@ jobs:
           command: |
                     mkdir -p /tmp/circleci
 
+                    jq -Rs '.' ".circleci/continued_config.yml" > /tmp/circleci/config-string.json
+
                     jq -n \
                       --arg continuation "$CIRCLE_CONTINUATION_KEY" \
                       --arg params {"testing":true} \
-                      --slurpfile config ".circleci/continued_config.yml" \
+                      --slurpfile config /tmp/circleci/config-string.json \
                       '{"continuation-key": $continuation, "configuration": $config|join("\n"), "parameters": $params|fromjson}' > /tmp/circleci/continue_post.json
       - run: 
           name: Continue the Pipeline
