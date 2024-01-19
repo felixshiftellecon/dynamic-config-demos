@@ -1,0 +1,23 @@
+version: 2.1
+
+parameters:
+  testing:
+    type: boolean
+    default: false
+
+executors:
+  base:
+    docker:
+      - image: cimg/base:stable
+
+jobs:
+  job_custom:
+    executor: base 
+    steps:
+      - run: echo << pipeline.parameters.testing >>
+
+workflows:
+  workflow-custom:
+    when: << pipeline.parameters.testing >>
+    jobs:
+      - job_custom

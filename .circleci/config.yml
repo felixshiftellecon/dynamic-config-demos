@@ -1,26 +1,30 @@
 version: 2.1
 
-executors:
-  base:
-    docker:
-      - image: cimg/base:stable
+setup: true
 
 jobs:
-  job_a:
-    executor: base
+  set-params-and-continue:
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
-      - run: echo "Running job a"
-      - run: cat path_a/README.md
-  job_b:
-    executor: base
-    steps:
-      - checkout
-      - run: echo "running job b"
-      - run: cat path_b/README.md
+      - run: 
+          name: Prepare Continuation Data
+          command: |
+                    jq -n \
+                      --arg continuation "$CIRCLE_CONTINUATION_KEY" \
+                      --arg params "$PARAMS" \
+                      --slurpfile config .circleci/continued_config.yml \
+                      '{"continuation-key": $CIRCLE_CONTINUATION_KEY, "configuration": $config|join("\n"), "parameters": {"testing":true}}' > /tmp/circleci/continue_post.json
+      - run: 
+          name: Continue the Pipeline
+          command: |
+                    curl --request POST \
+                      --url https://circleci.com/api/v2/pipeline/continue \
+                      --header 'content-type: application/json' \
+                      --data @/tmp/circleci/continue_post.json
 
 workflows:
-  job-workflow:
+  setup-workflow:
     jobs:
-      - job_a
-      - job_b
+      - set-params-and-continue
