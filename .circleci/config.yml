@@ -17,7 +17,7 @@ jobs:
 
                     jq -n \
                       --arg continuation "$CIRCLE_CONTINUATION_KEY" \
-                      --arg params {"testing":true} \
+                      --arg params '{"testing": true}' \
                       --slurpfile config /tmp/circleci/config-string.json \
                       '{"continuation-key": $continuation, "configuration": $config|join("\n"), "parameters": $params|fromjson}' > /tmp/circleci/continue_post.json
       - run: 
