@@ -1,0 +1,14 @@
+{
+  "name": "config_generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@circleci/circleci-config-sdk": "^0.12.3"
+  }
+}
