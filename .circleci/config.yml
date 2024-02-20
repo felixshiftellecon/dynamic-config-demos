@@ -1,26 +1,53 @@
 version: 2.1
 
+setup: true
+
+orbs:
+  path-filtering: circleci/path-filtering@0.1.0
+  continuation: circleci/continuation@0.2.0
+
 executors:
   base:
     docker:
       - image: cimg/base:stable
+    resource_class: small
 
 jobs:
-  job_a:
+  determine-workflow:
     executor: base
     steps:
       - checkout
-      - run: echo "Running job a"
-      - run: cat path_a/README.md
-  job_b:
-    executor: base
-    steps:
-      - checkout
-      - run: echo "running job b"
-      - run: cat path_b/README.md
+      - path-filtering/set-parameters:
+          mapping: |
+            ^\..* no_workflow true
+            path_a/.* path_a_workflow true
+            path_b/.* path_b_workflow true
+          output-path: /tmp/pipeline-parameters.json
+      - run:
+          name: Check if utility file was changed and stop workflow
+          command: |
+            # Pull parameters set in the previous step into bash
+            eval $(jq -r 'to_entries | .[] | "export \(.key)=\(.value)"' /tmp/pipeline-parameters.json)
+
+            echo "no_workflow: " $no_workflow
+            echo "path_a_workflow: " $path_a_workflow
+
+            # Continue job or halt based on parameters set above
+            if [  "$no_workflow" = "true" ] && [ "$path_a_workflow" = "true" ] || [ "$path_b_workflow" = "true" ]; then
+              echo "Commit has both utility and code changes, starting the next workflow"
+            elif [ "$no_workflow" = "true" ]; then
+              echo "Commit only has utility changes, halting workflow."
+              circleci-agent step halt
+            elif [ "$path_a_workflow" = "true" ] || [ "$path_b_workflow" = "true" ]; then
+              echo "Commit has code changes, starting the next workflow"
+            fi
+      - continuation/continue:
+          configuration_path: .circleci/continue_config.yml
+          parameters: /tmp/pipeline-parameters.json
+
+
 
 workflows:
-  job-workflow:
+  setup-workflow:
     jobs:
-      - job_a
-      - job_b
+      - determine-workflow

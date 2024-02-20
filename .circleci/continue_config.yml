@@ -1,0 +1,40 @@
+version: 2.1
+
+parameters:
+  path_a_workflow:
+    type: boolean
+    default: false
+  path_b_workflow:
+    type: boolean
+    default: false
+  no_workflow:
+    type: boolean
+    default: false
+
+executors:
+  base:
+    docker:
+      - image: cimg/base:stable
+    resource_class: small
+
+jobs:
+  job_a:
+    executor: base
+    steps:
+      - checkout
+      - run: cat path_a/README.md
+  job_b:
+    executor: base
+    steps:
+      - checkout
+      - run: cat path_b/README.md
+
+workflows:
+  workflow-a:
+    when: << pipeline.parameters.path_a_workflow >>
+    jobs:
+      - job_a
+  workflow-b:
+    when: << pipeline.parameters.path_b_workflow >>
+    jobs:
+      - job_b
