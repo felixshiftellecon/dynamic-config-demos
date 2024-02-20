@@ -45,8 +45,6 @@ jobs:
           configuration_path: .circleci/continue_config.yml
           parameters: /tmp/pipeline-parameters.json
 
-
-
 workflows:
   setup-workflow:
     jobs:
