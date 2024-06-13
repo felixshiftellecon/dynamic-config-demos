@@ -1,4 +1,4 @@
-# Centralized SDK Demo
+# Dynamic Config: Centralized SDK Demo
 
 This branch contains a demo of using the [Config SDK](https://circleci.com/docs/circleci-config-sdk/) to centralize manage configuration files.
 
