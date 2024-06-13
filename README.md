@@ -1,2 +1,3 @@
-# Continuation Orb Demo
-Currently config_via_unmarshall.go is the only working way. The others are work in progress and are left in for reference
+# Dynamic Config: Continuation Orb Demo
+
+This branch contains a demo of using the [Continuation Orb](https://circleci.com/developer/orbs/orb/circleci/continuation#commands-continue).
