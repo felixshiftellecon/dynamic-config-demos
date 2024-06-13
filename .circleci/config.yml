@@ -18,6 +18,7 @@ jobs:
     steps:
       - checkout
       - path-filtering/set-parameters:
+          # Matches any file or folder that starts with `.`
           mapping: |
             ^\..* no_workflow true
             path_a/.* path_a_workflow true
