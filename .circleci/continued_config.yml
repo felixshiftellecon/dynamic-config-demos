@@ -1,4 +1,10 @@
 version: 2.1
+
+parameters:
+  run_workflow:
+    type: boolean
+    default: false
+
 executors:
     go:
         docker:
@@ -18,6 +24,7 @@ jobs:
             - run: cat path_b/README.md
 workflows:
     job-workflow:
+        when: << pipeline.parameters.run_workflow >>
         jobs:
             - job_a
             - job_b

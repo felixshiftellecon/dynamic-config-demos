@@ -1,22 +1,24 @@
 version: 2.1
+
 setup: true
+
 orbs:
   continuation: circleci/continuation@1.0.0
+
 executors:
     go:
         docker:
             - image: cimg/go:1.17.3
+
 jobs:
   generate-config:
     executor: go
     steps:
       - checkout
-      - run: 
-          name: Generate generated_config.yml file
-          command: |
-            go run ./config_generators/config_via_unmarshall.go
       - continuation/continue:
-          configuration_path: ./generated_config.yml
+          configuration_path: .circleci/continued_config.yml
+          parameters: {run_workflow: true}
+          
 workflows:
   setup-workflow:
     jobs:
