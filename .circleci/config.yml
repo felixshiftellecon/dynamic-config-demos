@@ -12,27 +12,13 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - path-filtering/set-parameters:
-          mapping: |
-                  path_a/.* run-path-a true
-                  path_b/.* run-path-b true
-          base-revision: << pipeline.git.base_revision >>
       - run: |
-          jq '. + {"testing": true}' /tmp/pipeline-parameters.json > temp.json
+          jq -n '. + {"testing": true}' > /tmp/pipeline-parameters.json
       - continuation/continue:
           configuration_path: .circleci/continue-config.yml
-          parameters: temp.json
+          parameters: /tmp/pipeline-parameters.json
 
 workflows:
   setup-workflow:
     jobs:
       - set-params-and-continue
-      # - path-filtering/filter:
-      #     name: check path
-      #     mapping: |
-      #       path_a/.* run-path-a true
-      #       path_b/.* run-path-b true
-      #     # Default base-revision is main, but in this case
-      #     # that would cause both workflows to run each time
-      #     base-revision: << pipeline.git.base_revision >>
-      #     config-path: .circleci/continue-config.yml
