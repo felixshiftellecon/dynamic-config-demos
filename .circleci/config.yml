@@ -17,8 +17,8 @@ jobs:
       - checkout
       - continuation/continue:
           configuration_path: .circleci/continued_config.yml
-          parameters: {run_workflow: true}
-          
+          parameters: '{"run_workflow": "true"}'
+
 workflows:
   setup-workflow:
     jobs:
