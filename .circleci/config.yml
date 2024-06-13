@@ -1,19 +1,14 @@
 version: 2.1
 setup: true
 
-parameters:
-  default:
-    default: "default"
-    description: Triggers the running of the automated tests. Must be one of "categories", "category" or "none". Defaults to 'categories'.
-    type: enum
-    enum: ["default", "none", "not default"]
-
 orbs:
-  continuation: circleci/continuation@0.1.0
+  continuation: circleci/continuation@1.0.0
+
 executors:
     go:
         docker:
             - image: cimg/go:1.17.3
+
 jobs:
   generate-config:
     executor: go
@@ -25,6 +20,7 @@ jobs:
             go run ./config_generators/config_via_unmarshall.go
       - continuation/continue:
           configuration_path: ./generated_config.yml
+
 workflows:
   setup-workflow:
     jobs:
