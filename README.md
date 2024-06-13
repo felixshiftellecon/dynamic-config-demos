@@ -1,2 +1,3 @@
-# Continuation Orb Demo
-Currently config_via_unmarshall.go is the only working way. The others are work in progress and are left in for reference
+# Dynamic Config: Go Config Generation Demo
+
+This branch contains a demo of using go, specifically unmarshalling, to generate a config.
