@@ -3,8 +3,8 @@ version: 2.1
 setup: true
 
 orbs:
-  path-filtering: circleci/path-filtering@0.1.0
-  continuation: circleci/continuation@0.2.0
+  path-filtering: circleci/path-filtering@1.0.0
+  continuation: circleci/continuation@1.0.0
 
 executors:
   base:
