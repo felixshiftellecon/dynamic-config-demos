@@ -6,5 +6,5 @@ For more information on this feature please refer to [CircleCI's documentation](
 
 ## Repo Architecture
 
-Each use case of dynamic config is separated by branch. Each use cases structure may be different but the basic concept is there is a `config.yaml` file that contains the setup workflow. A `continued.yaml` which contain the continued workflow(s) may exist in the repo or it may be generated in some fashion.
+Each use case of dynamic config is separated by branch. Each use cases structure may be different but the basic concept is there is a `config.yaml` file that contains the setup workflow. A `continued.yaml` which contains the continued workflow(s) may exist in the repo or it may be generated in some fashion.
 
